@@ -1,0 +1,19 @@
+variables:
+  TAG: '$CI_COMMIT_REF_SLUG'
+
+stages:
+  - test
+  - build
+
+test:
+  # 使用哪个镜像执行
+  image: golang:1.17
+  stage: test
+  script:
+    - go test -race
+
+docker-build:
+  image: docker:latest
+  stage: build
+  script:
+    - docker build -t gin_project:$TAG .
